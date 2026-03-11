@@ -1,0 +1,245 @@
+
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { CheckCircle, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
+import { usePaper } from "@/context/PaperContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { Question } from "@/lib/types";
+
+// Define a proper type for the special test data
+interface SpecialTestData {
+  id: string;
+  name?: string;
+  description?: string;
+  duration?: number;
+  numQuestions?: number;
+  questions?: Question[];
+  [key: string]: any; // For other properties that might exist
+}
+
+const Instructions = () => {
+  const { year, testId } = useParams();
+  const { paperType } = usePaper();
+  const navigate = useNavigate();
+  const [specialTest, setSpecialTest] = useState<SpecialTestData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [totalMarks, setTotalMarks] = useState<number>(100); // Default for PYQ tests is 100
+  const [totalQuestions, setTotalQuestions] = useState<number>(65); // Default for PYQ tests
+
+  // Fetch special test data if testId is provided
+  useEffect(() => {
+    const fetchSpecialTest = async () => {
+      if (!testId) return;
+      
+      setLoading(true);
+      try {
+        console.log("Fetching special test with ID:", testId);
+        const testDocRef = doc(db, "specialTests", testId);
+        const testSnapshot = await getDoc(testDocRef);
+        
+        if (testSnapshot.exists()) {
+          const testData: SpecialTestData = { 
+            id: testSnapshot.id,
+            ...testSnapshot.data() as Omit<SpecialTestData, 'id'>
+          };
+          setSpecialTest(testData);
+          
+          // Calculate total marks and questions from embedded questions array
+          if (testData.questions && Array.isArray(testData.questions) && testData.questions.length > 0) {
+            let questionMarks = 0;
+            testData.questions.forEach((question: Question) => {
+              questionMarks += question.marks || 0;
+            });
+            
+            console.log(`Total marks for special test: ${questionMarks} from ${testData.questions.length} questions`);
+            setTotalMarks(questionMarks);
+            setTotalQuestions(testData.questions.length);
+          } else {
+            console.error("No questions found in special test");
+            setError("No questions found in this test");
+            setTotalMarks(0);
+            setTotalQuestions(0);
+          }
+        } else {
+          console.error("Special test not found with ID:", testId);
+          setError("Special test not found");
+        }
+      } catch (err) {
+        console.error("Error fetching special test:", err);
+        setError("Failed to load test data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    if (testId) {
+      fetchSpecialTest();
+    }
+  }, [testId]);
+
+  const handleStartTest = () => {
+    if (testId) {
+      navigate(`/test/special/${testId}`);
+    } else if (year) {
+      navigate(`/test/${year}`);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center">
+        <Card className="w-full max-w-3xl">
+          <CardHeader>
+            <CardTitle className="text-center">Loading Test Information...</CardTitle>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center">
+        <Card className="w-full max-w-3xl">
+          <CardHeader>
+            <CardTitle className="text-center text-red-500">Error</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center">{error}</p>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <Button onClick={() => navigate("/dashboard")}>
+              Return to Dashboard
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 relative">
+      <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-indigo-900/10 blur-[120px] rounded-full pointer-events-none transform -translate-y-1/2"></div>
+      
+      <Card className="w-full max-w-3xl bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl relative z-10">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl text-slate-100 font-bold">
+            {specialTest ? specialTest.name : `${paperType} ${year} Test Instructions`}
+          </CardTitle>
+          {specialTest?.description && (
+            <CardDescription className="text-center text-slate-400">
+              {specialTest.description}
+            </CardDescription>
+          )}
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Test Details */}
+          <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1 text-center md:text-left">
+              <p className="text-sm text-slate-400">Total Questions</p>
+              <p className="font-medium text-lg text-slate-200">
+                {specialTest ? totalQuestions : "65"}
+              </p>
+            </div>
+            <div className="space-y-1 text-center md:text-left">
+              <p className="text-sm text-slate-400">Total Time</p>
+              <p className="font-medium text-lg text-slate-200">
+                {specialTest ? `${specialTest.duration} minutes` : "3 hours"}
+              </p>
+            </div>
+            <div className="space-y-1 text-center md:text-left">
+              <p className="text-sm text-slate-400">Maximum Marks</p>
+              <p className="font-medium text-lg text-slate-200">{totalMarks}</p>
+            </div>
+            <div className="space-y-1 text-center md:text-left">
+              <p className="text-sm text-slate-400">Test Mode</p>
+              <p className="font-medium text-lg text-slate-200">Online</p>
+            </div>
+          </div>
+
+          <Separator className="bg-white/10" />
+
+          {/* General Instructions */}
+          <div>
+            <h3 className="font-semibold text-lg mb-3 text-slate-200">General Instructions:</h3>
+            <ul className="space-y-2 text-slate-300">
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 mr-2 text-emerald-400 shrink-0 mt-0.5" />
+                <span>The test consists of multiple-choice questions (MCQs), multiple-select questions (MSQs), and numerical answer type (NAT) questions.</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 mr-2 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Each question has marks assigned to it, visible at the top right of the question.</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 mr-2 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Some questions may have negative marking. This will be indicated in the question.</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 mr-2 text-emerald-400 shrink-0 mt-0.5" />
+                <span>You can move freely between questions and review your answers before submitting.</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 mr-2 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Questions can be marked for review to revisit them later.</span>
+              </li>
+            </ul>
+          </div>
+
+          <Separator className="bg-white/10" />
+
+          {/* Important Notes */}
+          <div>
+            <h3 className="font-semibold text-lg mb-3 text-slate-200">Important Notes:</h3>
+            <ul className="space-y-2 text-slate-300">
+              <li className="flex items-start">
+                <AlertTriangle className="h-5 w-5 mr-2 text-amber-500 shrink-0 mt-0.5" />
+                <span>The test will automatically submit when the timer reaches zero.</span>
+              </li>
+              <li className="flex items-start">
+                <AlertTriangle className="h-5 w-5 mr-2 text-amber-500 shrink-0 mt-0.5" />
+                <span>Do not refresh or close the browser window during the test.</span>
+              </li>
+              <li className="flex items-start">
+                <AlertTriangle className="h-5 w-5 mr-2 text-amber-500 shrink-0 mt-0.5" />
+                <span>Ensure a stable internet connection before starting.</span>
+              </li>
+            </ul>
+          </div>
+
+          <Separator className="bg-white/10" />
+
+          {/* Declaration */}
+          <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-lg">
+            <p className="font-medium mb-2 text-slate-200">Declaration:</p>
+            <p className="text-sm text-slate-400">
+              I have read and understood all the instructions. I agree to follow them and take the test with integrity.
+            </p>
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-between border-t border-white/10 pt-6">
+          <Button variant="outline" onClick={() => navigate("/dashboard")} className="border-white/10 bg-transparent text-slate-300 hover:bg-white/10 hover:text-white">
+            Back to Dashboard
+          </Button>
+          <Button onClick={handleStartTest} className="bg-indigo-600 hover:bg-indigo-500 text-white border-0 shadow-lg hover:shadow-indigo-500/25 transition-all">
+            Start Test
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+};
+
+export default Instructions;

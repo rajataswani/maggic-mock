@@ -1,0 +1,169 @@
+
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Award } from "lucide-react"; 
+import ResultHeader from "@/components/result/ResultHeader";
+import ResultSummaryCards from "@/components/result/ResultSummaryCards";
+import SubjectPerformance from "@/components/result/SubjectPerformance";
+import WeakSubjects from "@/components/result/WeakSubjects";
+import QuestionAnalysisTable from "@/components/result/QuestionAnalysisTable";
+import { QuestionDetail, TestResult } from "@/types/result";
+import { Question } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+
+const Result = () => {
+  const navigate = useNavigate();
+  const [results, setResults] = useState<TestResult | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [questionDetails, setQuestionDetails] = useState<QuestionDetail[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Load test results from session storage
+    const storedResults = sessionStorage.getItem('testResults');
+    
+    if (storedResults) {
+      try {
+        const parsedResults: TestResult = JSON.parse(storedResults);
+        setResults(parsedResults);
+        console.log("Loaded results:", parsedResults); // Debug log
+        
+        // Process questions for the table
+        if (parsedResults.questions && parsedResults.userAnswers) {
+          const details = parsedResults.questions.map((q: Question, index: number) => {
+            const userAnswer = parsedResults.userAnswers?.[index];
+            const questionStatus = parsedResults.questionStatus?.[index] || "notVisited";
+            
+            // Determine if the question was skipped based on status and answer
+            let isSkipped = questionStatus === "skipped" || questionStatus === "skippedReview" || 
+                           questionStatus === "notVisited" ||
+                           userAnswer === null || 
+                           (typeof userAnswer === "string" && userAnswer.trim() === "") || 
+                           (Array.isArray(userAnswer) && userAnswer.length === 0);
+            
+            // Check if the question was marked as attempted in the status
+            if (questionStatus === "attempted" || questionStatus === "attemptedReview") {
+              isSkipped = false;
+            }
+            
+            let isCorrect = false;
+            
+            // Only check for correctness if the question wasn't skipped
+            if (!isSkipped) {
+              // Check if the answer is correct based on question type
+              if (q.type === "MCQ" && typeof userAnswer === "string") {
+                isCorrect = userAnswer === q.correctOption;
+              } 
+              else if (q.type === "MSQ" && Array.isArray(userAnswer) && q.correctOptions) {
+                const allCorrectSelected = q.correctOptions.every(
+                  opt => userAnswer.includes(opt)
+                );
+                
+                const noIncorrectSelected = userAnswer.every(
+                  opt => q.correctOptions?.includes(opt)
+                );
+                
+                isCorrect = allCorrectSelected && noIncorrectSelected;
+              }
+              else if (q.type === "NAT" && typeof userAnswer === "string" && 
+                      q.rangeStart !== undefined && q.rangeEnd !== undefined) {
+                const numAnswer = parseFloat(userAnswer);
+                isCorrect = !isNaN(numAnswer) && 
+                            numAnswer >= q.rangeStart && 
+                            numAnswer <= q.rangeEnd;
+              }
+            }
+            
+            // Inherit Silly Mistake from parsed calculations
+            const isSillyMistake = parsedResults.sillyMistakes?.[index] || false;
+            
+            // Inherit Time Spent from parsed test
+            const timeSpent = parsedResults.timeSpent?.[index] || 0;
+            
+            console.log(`Question ${index+1}: status=${questionStatus}, isSkipped=${isSkipped}, isCorrect=${isCorrect}, msSq=${isSillyMistake}`); // Debug log
+            
+            return {
+              ...q,
+              userAnswer,
+              isCorrect,
+              isSkipped,
+              isSillyMistake,
+              timeSpent
+            };
+          });
+          
+          setQuestionDetails(details);
+        }
+      } catch (error) {
+        console.error("Error parsing test results:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load test results",
+          variant: "destructive"
+        });
+      }
+    }
+    
+    setLoading(false);
+  }, [toast]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Loading results...</p>
+      </div>
+    );
+  }
+
+  if (!results) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <p className="text-xl mb-4">No test results found</p>
+        <Button onClick={() => navigate("/dashboard")}>Return to Dashboard</Button>
+      </div>
+    );
+  }
+
+  const utilizedTime = results.timeSpent ? results.timeSpent.reduce((a, b) => a + b, 0) : 0;
+  // If no explicit totalTime was provided, default to a standard 3 hours (10800 seconds) 
+  // or the actual utilized time if it somehow exceeds it.
+  const totalTime = results.totalTime || Math.max(10800, utilizedTime);
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <ResultHeader />
+
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
+        <ResultSummaryCards 
+          rawMarks={results.rawMarks || 0}
+          lossMarks={results.lossMarks || 0}
+          scaledMarks={results.scaledMarks || 0}
+          totalMarks={results.totalMarks || 0}
+          utilizedTime={utilizedTime}
+          totalTime={totalTime}
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+          <div className="lg:col-span-1 border-gray-200">
+            <WeakSubjects weakSubjects={results.weakSubjects || []} />
+          </div>
+          
+          <div className="lg:col-span-3">
+            <SubjectPerformance subjectPerformance={results.subjectPerformance || []} />
+          </div>
+        </div>
+
+        <QuestionAnalysisTable questionDetails={questionDetails} />
+
+        <div className="flex justify-center mt-12 mb-8">
+          <Button onClick={() => navigate("/dashboard")} className="px-8 py-6 text-lg rounded-full shadow-lg hover:-translate-y-1 transition-transform">
+            Return to Dashboard
+          </Button>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Result;
