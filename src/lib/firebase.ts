@@ -5,13 +5,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDq5n5h-PAl08LwLF4x0hfwCDrWZWxO3CU",
-  authDomain: "maggicmock.firebaseapp.com",
-  projectId: "maggicmock",
-  storageBucket: "maggicmock.firebasestorage.app",
-  messagingSenderId: "355529743420",
-  appId: "1:355529743420:web:533b03accbdf11106b3739",
-  measurementId: "G-N480BH7N2P"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
