@@ -110,10 +110,17 @@ export const useTestLoader = (year: string | undefined, paperType: string | null
             navigate("/dashboard");
             return;
           }
-          
-          const selectedQuestions = fetchedQuestions.slice(0, 65);
+
+          // Sort questions: Aptitude 1m → Aptitude 2m → Technical 1m → Technical 2m
+          // (same order as special tests — purely cosmetic for the student experience)
+          const aptOne  = fetchedQuestions.filter(q => q.subject?.toLowerCase() === "aptitude" && Number(q.marks) === 1);
+          const aptTwo  = fetchedQuestions.filter(q => q.subject?.toLowerCase() === "aptitude" && Number(q.marks) === 2);
+          const techOne = fetchedQuestions.filter(q => q.subject?.toLowerCase() !== "aptitude" && Number(q.marks) === 1);
+          const techTwo = fetchedQuestions.filter(q => q.subject?.toLowerCase() !== "aptitude" && Number(q.marks) === 2);
+          const sortedQuestions = [...aptOne, ...aptTwo, ...techOne, ...techTwo];
+
           testParams = {
-            questions: selectedQuestions,
+            questions: sortedQuestions,
             duration: 180,
             testType: "PYQ"
           };
