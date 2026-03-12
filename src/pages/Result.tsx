@@ -144,14 +144,14 @@ const Result = () => {
           totalTime={totalTime}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-          <div className="lg:col-span-1 border-gray-200">
-            <WeakSubjects weakSubjects={results.weakSubjects || []} />
-          </div>
-          
-          <div className="lg:col-span-3">
-            <SubjectPerformance subjectPerformance={results.subjectPerformance || []} />
-          </div>
+        {/* Subject performance — full width for the expanded table */}
+        <div className="mb-6">
+          <SubjectPerformance subjectPerformance={results.subjectPerformance || []} />
+        </div>
+
+        {/* Weak topics — full width below the table */}
+        <div className="mb-8">
+          <WeakSubjects weakSubjects={results.weakSubjects || []} />
         </div>
 
         <QuestionAnalysisTable questionDetails={questionDetails} />

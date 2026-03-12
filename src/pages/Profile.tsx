@@ -99,9 +99,10 @@ const Profile = () => {
   };
 
   const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
+    const totalSeconds = isNaN(seconds) || seconds === undefined || seconds === null ? 0 : seconds;
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const remainingSeconds = Math.floor(totalSeconds % 60);
     
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
@@ -238,7 +239,7 @@ const Profile = () => {
                                   {test.scoredMarks}/{test.totalMarks}
                                 </span>
                                 <span className="text-sm text-slate-500 ml-2">
-                                  ({Math.round((test.scoredMarks / test.totalMarks) * 100)}%)
+                                  ({test.totalMarks > 0 ? Math.round((test.scoredMarks / test.totalMarks) * 100) : 0}%)
                                 </span>
                               </TableCell>
                               <TableCell className="text-slate-300">{formatTime(test.totalTime)}</TableCell>

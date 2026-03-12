@@ -72,7 +72,9 @@ const QuestionDetailDialog = ({
         <div className="mt-4 space-y-4">
           <div>
             <h3 className="font-medium">Question</h3>
-            <p className="mt-1">{question.text}</p>
+            {question.text ? (
+              <p className="mt-1">{question.text}</p>
+            ) : null}
             {question.imageUrl && (
               <div className="mt-2">
                 <img 
@@ -81,6 +83,9 @@ const QuestionDetailDialog = ({
                   className="max-w-full max-h-64 object-contain rounded border"
                 />
               </div>
+            )}
+            {!question.text && !question.imageUrl && (
+              <p className="mt-1 text-gray-400 italic">Question text not available</p>
             )}
           </div>
           
@@ -135,7 +140,7 @@ const QuestionDetailDialog = ({
                     ? `+${question.marks}` 
                     : (question.isSkipped 
                         ? "0" 
-                        : `-${question.negativeMark}`)
+                        : (question.negativeMark ? `-${question.negativeMark}` : "0"))
                 }
               </div>
             </div>

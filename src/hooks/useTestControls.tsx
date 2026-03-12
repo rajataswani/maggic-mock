@@ -16,6 +16,8 @@ export interface UseTestControlsProps {
   setUserAnswers: React.Dispatch<React.SetStateAction<(string | string[] | null)[]>>;
   questionStatus: Record<number, string>;
   setQuestionStatus: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+  timeSpent: number[];
+  setTimeSpent: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export const useTestControls = ({ 
@@ -25,7 +27,9 @@ export const useTestControls = ({
   userAnswers,
   setUserAnswers,
   questionStatus,
-  setQuestionStatus
+  setQuestionStatus,
+  timeSpent,
+  setTimeSpent
 }: UseTestControlsProps) => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
@@ -37,25 +41,9 @@ export const useTestControls = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [markedForReview, setMarkedForReview] = useState(false);
-  const [timeSpent, setTimeSpent] = useState<number[]>(new Array(questions.length).fill(0));
   
   // Add a ref to track if the test has been submitted
   const hasSubmittedRef = useRef(false);
-
-  // Timer effect to track time spent on the current question
-  useEffect(() => {
-    if (submitting || hasSubmittedRef.current) return;
-
-    const timer = setInterval(() => {
-      setTimeSpent(prev => {
-        const updated = [...prev];
-        updated[currentQuestion] = (updated[currentQuestion] || 0) + 1;
-        return updated;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [currentQuestion, submitting]);
 
   const updateQuestionStatus = (status: string) => {
     setQuestionStatus(prev => ({
@@ -91,10 +79,10 @@ export const useTestControls = ({
       if (answer && answer.toString().trim() !== '') {
         updateQuestionStatus(markedForReview ? "attemptedReview" : "attempted");
       } else {
-        updateQuestionStatus(markedForReview ? "skippedReview" : "skipped");
+        updateQuestionStatus(markedForReview ? "skippedReview" : "visited");
       }
     } else {
-      updateQuestionStatus(markedForReview ? "skippedReview" : "skipped");
+      updateQuestionStatus(markedForReview ? "skippedReview" : "visited");
     }
 
     // Make sure state updates are visible in UI
@@ -129,9 +117,14 @@ export const useTestControls = ({
     }
     
     setMarkedForReview(
-      questionStatus[index] === "attemptedReview" || 
-      questionStatus[index] === "skippedReview"
+      questionStatus[index] === "attemptedReview"
     );
+
+    // Mark as 'visited' (red) if never touched — only if not already in a meaningful state
+    const currentStatus = questionStatus[index];
+    if (!currentStatus || currentStatus === "notVisited") {
+      setQuestionStatus(prev => ({ ...prev, [index]: "visited" }));
+    }
   };
 
   const handleJumpToQuestion = (index: number) => {
@@ -266,7 +259,7 @@ export const useTestControls = ({
   };
 
   const handleSkipQuestion = () => {
-    updateQuestionStatus(markedForReview ? "skippedReview" : "skipped");
+    updateQuestionStatus(markedForReview ? "skippedReview" : "visited");
     
     if (currentQuestion < questions.length - 1) {
       moveToQuestion(currentQuestion + 1);

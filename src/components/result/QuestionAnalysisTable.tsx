@@ -177,10 +177,10 @@ const QuestionAnalysisTable = ({ questionDetails }: QuestionAnalysisTableProps) 
                     <TableCell>
                       <span className={`font-bold ${question.isCorrect ? 'text-green-600' : (question.isSkipped ? 'text-gray-400' : 'text-red-500')}`}>
                         {question.isCorrect 
-                          ? question.marks 
+                          ? `+${question.marks}`
                           : (question.isSkipped 
                             ? "0" 
-                            : `-${question.negativeMark}`)}
+                            : (question.negativeMark ? `-${question.negativeMark}` : "0"))}
                       </span>
                     </TableCell>
                   </TableRow>

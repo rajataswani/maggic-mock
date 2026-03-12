@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { AlertTriangle, HelpCircle, Flag, CheckCircle } from "lucide-react";
+import { AlertTriangle, Flag, CheckCircle, Eraser } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -65,26 +65,32 @@ const QuestionDisplay = ({
 
   const handleReviewToggle = (checked: boolean) => {
     setMarkedForReview(checked);
-    
-    // Update question status when review toggle changes
     if (updateQuestionStatus) {
-      // Determine if the question has an answer
       let hasAnswer = false;
+      if (currentQuestionData.type === "MCQ") hasAnswer = selectedOption !== null;
+      else if (currentQuestionData.type === "MSQ") hasAnswer = selectedOptions.length > 0;
+      else if (currentQuestionData.type === "NAT") hasAnswer = natAnswer.trim() !== '';
       
-      if (currentQuestionData.type === "MCQ") {
-        hasAnswer = selectedOption !== null;
-      } else if (currentQuestionData.type === "MSQ") {
-        hasAnswer = selectedOptions.length > 0;
-      } else if (currentQuestionData.type === "NAT") {
-        hasAnswer = natAnswer.trim() !== '';
-      }
-      
-      // Update with appropriate status
       if (hasAnswer) {
         updateQuestionStatus(checked ? "attemptedReview" : "attempted");
       } else {
-        updateQuestionStatus(checked ? "skippedReview" : "skipped");
+        updateQuestionStatus(checked ? "skippedReview" : "visited");
       }
+    }
+  };
+
+  const handleClear = () => {
+    // Clear the answer for the current question
+    if (currentQuestionData.type === "NAT") {
+      setNatAnswer('');
+      updateAnswer(null);
+    } else {
+      updateAnswer(currentQuestionData.type === "MSQ" ? [] : null);
+    }
+    // Mark as visited (red) since they viewed but cleared the answer
+    // Mark as visited (red) or skippedReview (orange) since they cleared the answer
+    if (updateQuestionStatus) {
+      updateQuestionStatus(markedForReview ? "skippedReview" : "visited");
     }
   };
 
@@ -239,17 +245,28 @@ const QuestionDisplay = ({
         </div>
       )}
 
-      {/* Mark for review toggle */}
-      <div className="mt-8 flex items-center space-x-2">
-        <Switch
-          id="review-mode"
-          checked={markedForReview}
-          onCheckedChange={handleReviewToggle}
-        />
-        <Label htmlFor="review-mode" className="flex items-center cursor-pointer">
-          <Flag className="h-4 w-4 mr-2 text-orange-500" />
-          Mark for review
-        </Label>
+      {/* Mark for review + Clear */}
+      <div className="mt-8 flex items-center gap-4">
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="review-mode"
+            checked={markedForReview}
+            onCheckedChange={handleReviewToggle}
+          />
+          <Label htmlFor="review-mode" className="flex items-center cursor-pointer">
+            <Flag className="h-4 w-4 mr-2 text-orange-500" />
+            Mark for review
+          </Label>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleClear}
+          className="flex items-center gap-1.5 text-gray-500 border-gray-300 hover:bg-red-50 hover:text-red-600 hover:border-red-300 transition-colors"
+        >
+          <Eraser className="h-3.5 w-3.5" />
+          Clear
+        </Button>
       </div>
     </div>
   );

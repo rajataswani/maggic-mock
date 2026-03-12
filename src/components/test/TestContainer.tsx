@@ -61,7 +61,9 @@ const TestContainer: React.FC = () => {
     userAnswers,
     setUserAnswers,
     questionStatus,
-    setQuestionStatus
+    setQuestionStatus,
+    timeSpent,
+    setTimeSpent
   });
 
   // Initialize test timer

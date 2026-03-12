@@ -1,14 +1,15 @@
 
 import { cn } from "@/lib/utils";
-import { CheckCircle, XCircle, Flag, Calculator, Cpu } from "lucide-react";
+import { Check, Flag, Calculator, Cpu } from "lucide-react";
 
 // Status colors for question palette
 const statusColors = {
-  notVisited: "bg-gray-200",
+  notVisited: "bg-white border text-slate-800",
+  visited: "bg-red-500 text-white",
   attempted: "bg-green-500 text-white",
-  skipped: "bg-red-500 text-white",
-  attemptedReview: "bg-purple-500 text-white",
-  skippedReview: "bg-orange-500 text-white"
+  attemptedReview: "bg-purple-600 text-white",
+  skippedReview: "bg-orange-500 text-white",
+  skipped: "bg-red-500 text-white" // Map skipped to Red as well since it's visited but unanswered
 };
 
 export interface QuestionPaletteProps {
@@ -29,10 +30,9 @@ const QuestionPalette = ({
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "attempted":
-        return <CheckCircle className="h-3 w-3" />;
-      case "skipped":
-        return <XCircle className="h-3 w-3" />;
+        return <Check className="h-3 w-3" />;
       case "attemptedReview":
+        return <Check className="h-3 w-3 font-bold" />;
       case "skippedReview":
         return <Flag className="h-3 w-3" />;
       default:
@@ -126,17 +126,11 @@ const QuestionPalette = ({
       <div className="border-t pt-3">
         <div className="text-xs font-medium mb-1">Legend:</div>
         <div className="grid grid-cols-1 gap-1">
-          {Object.entries(statusColors).map(([key, color]) => (
-            <div key={key} className="flex items-center text-xs">
-              <div className={cn("w-4 h-4 rounded mr-2", color)}></div>
-              <span className="capitalize">
-                {key === "notVisited" ? "Not Visited" : 
-                 key === "attemptedReview" ? "Attempted & Marked" : 
-                 key === "skippedReview" ? "Skipped & Marked" : 
-                 key}
-              </span>
-            </div>
-          ))}
+          <div className="flex items-center text-xs"><div className="w-4 h-4 rounded mr-2 bg-white border border-gray-300"></div><span>not visited the question yet.</span></div>
+          <div className="flex items-center text-xs"><div className="w-4 h-4 rounded mr-2 bg-red-500"></div><span>visited but not answered </span></div>
+          <div className="flex items-center text-xs"><div className="w-4 h-4 rounded mr-2 bg-green-500"></div><span>answered</span></div>
+          <div className="flex items-center text-xs"><div className="w-4 h-4 rounded mr-2 bg-orange-500"></div><span>not answered but marked it for review.</span></div>
+          <div className="flex items-center text-xs"><div className="w-4 h-4 rounded mr-2 bg-purple-600"></div><span className="flex items-center gap-1">answered and marked it for review <Check className="h-2 w-2" /></span></div>
         </div>
       </div>
     </div>

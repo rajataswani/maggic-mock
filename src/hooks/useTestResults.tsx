@@ -3,8 +3,10 @@ import { Question } from "@/lib/types";
 
 interface SubjectPerformance {
   subject: string;
-  total: number;
-  scored: number;
+  total: number;       // total marks available
+  scored: number;      // positive marks earned (raw)
+  lostMarks: number;   // negative marks lost
+  actualMarks: number; // scored - lostMarks
   attempted: number;
   totalQuestions: number;
   percentage: number;
@@ -34,9 +36,12 @@ export const useTestResults = () => {
     const subjectPerformance: Record<string, {
       total: number,
       scored: number,
+      lostMarks: number,
       attempted: number,
       skipped: number,
-      totalQuestions: number
+      totalQuestions: number,
+      correctCount: number,
+      incorrectCount: number
     }> = {};
     
     questions.forEach((question, index) => {
@@ -48,9 +53,12 @@ export const useTestResults = () => {
         subjectPerformance[question.subject] = {
           total: 0,
           scored: 0,
+          lostMarks: 0,
           attempted: 0,
           skipped: 0,
-          totalQuestions: 0
+          totalQuestions: 0,
+          correctCount: 0,
+          incorrectCount: 0
         };
       }
       
@@ -74,8 +82,12 @@ export const useTestResults = () => {
           if (userAnswer === question.correctOption) {
             rawMarks += question.marks;
             subjectPerformance[question.subject].scored += question.marks;
+            subjectPerformance[question.subject].correctCount += 1;
           } else {
-            lossMarks += Math.abs(question.negativeMark || 0);
+            const neg = Math.abs(question.negativeMark || 0);
+            lossMarks += neg;
+            subjectPerformance[question.subject].lostMarks += neg;
+            subjectPerformance[question.subject].incorrectCount += 1;
           }
         }
         // For MSQ
@@ -93,48 +105,40 @@ export const useTestResults = () => {
           if (allCorrectOptionsSelected && noIncorrectOptionsSelected) {
             rawMarks += question.marks;
             subjectPerformance[question.subject].scored += question.marks;
+            subjectPerformance[question.subject].correctCount += 1;
           } else {
-            // Check for silly mistake (near miss)
-            // Near miss logic: exactly 1 missing correct option OR exactly 1 extra incorrect option
             const numCorrectSelected = userAnswer.filter(opt => question.correctOptions?.includes(opt)).length;
             const numIncorrectSelected = userAnswer.length - numCorrectSelected;
             const totalCorrectOptions = question.correctOptions.length;
-            
-            // Missed exactly 1 correct, but no incorrects selected
             const missedOne = (numCorrectSelected === totalCorrectOptions - 1) && (numIncorrectSelected === 0);
-            // Selected all correct, plus exactly 1 incorrect
             const extraOne = (numCorrectSelected === totalCorrectOptions) && (numIncorrectSelected === 1);
-            
-            if (missedOne || extraOne) {
-              sillyMistakes[index] = true;
-            }
-
-            // Only apply negative marking if the user selected something
-            lossMarks += Math.abs(question.negativeMark || 0);
+            if (missedOne || extraOne) sillyMistakes[index] = true;
+            const neg = Math.abs(question.negativeMark || 0);
+            lossMarks += neg;
+            subjectPerformance[question.subject].lostMarks += neg;
+            subjectPerformance[question.subject].incorrectCount += 1;
           }
         }
         // For NAT
         else if (question.type === "NAT" && typeof userAnswer === "string" && 
                 question.rangeStart !== undefined && question.rangeEnd !== undefined) {
           const numAnswer = parseFloat(userAnswer);
-          if (!isNaN(numAnswer) && 
-              numAnswer >= question.rangeStart && 
-              numAnswer <= question.rangeEnd) {
+          if (!isNaN(numAnswer) && numAnswer >= question.rangeStart && numAnswer <= question.rangeEnd) {
             rawMarks += question.marks;
             subjectPerformance[question.subject].scored += question.marks;
+            subjectPerformance[question.subject].correctCount += 1;
           } else {
             if (!isNaN(numAnswer)) {
-              // Calculate Silly Mistake tolerance explicitly (+/- 10% of the range or absolute bounds)
-              const rangeDiff = question.rangeEnd - question.rangeStart || 1; 
-              const tolerance = Math.max(0.1, rangeDiff * 0.1); // at least 0.1 tolerance or 10% of range spread
-              
+              const rangeDiff = question.rangeEnd - question.rangeStart || 1;
+              const tolerance = Math.max(0.1, rangeDiff * 0.1);
               if (numAnswer >= question.rangeStart - tolerance && numAnswer <= question.rangeEnd + tolerance) {
                 sillyMistakes[index] = true;
               }
             }
-            
-            // Only apply negative marking if the user entered something
-            lossMarks += Math.abs(question.negativeMark || 0);
+            const neg = Math.abs(question.negativeMark || 0);
+            lossMarks += neg;
+            subjectPerformance[question.subject].lostMarks += neg;
+            subjectPerformance[question.subject].incorrectCount += 1;
           }
         }
       } else {
@@ -148,9 +152,13 @@ export const useTestResults = () => {
         subject,
         total: data.total,
         scored: data.scored,
+        lostMarks: data.lostMarks,
+        actualMarks: data.scored - data.lostMarks,
         attempted: data.attempted,
         skipped: data.skipped,
         totalQuestions: data.totalQuestions,
+        correctCount: data.correctCount,
+        incorrectCount: data.incorrectCount,
         percentage: data.total > 0 ? Math.round((data.scored / data.total) * 100) : 0
       })
     );

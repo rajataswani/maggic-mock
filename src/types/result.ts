@@ -4,9 +4,13 @@ export interface SubjectPerformance {
   subject: string;
   total: number;
   scored: number;
+  lostMarks: number;
+  actualMarks: number;
   attempted: number;
   skipped: number;
   totalQuestions: number;
+  correctCount: number;
+  incorrectCount: number;
   percentage: number;
 }
 
