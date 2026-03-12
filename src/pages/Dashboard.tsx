@@ -51,8 +51,8 @@ const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState("TWT");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Generate years from 2025 down to 2015
-  const years = Array.from({ length: 11 }, (_, i) => 2025 - i);
+  // Generate years from 2026 down to 2015
+  const years = Array.from({ length: 12 }, (_, i) => 2026 - i);
   
   // Fetch special tests
   useEffect(() => {
@@ -257,14 +257,32 @@ const Dashboard = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {years.map((year, index) => (
-              <GlassCard
+              <motion.div
                 key={year}
-                title={`${paperType || "Paper"} ${year}`}
-                meta={["65 Questions", "100 Marks", "Full Length Paper"]}
-                buttonText="Start PYQ Test"
-                onClick={() => navigate(`/instructions/${year}`)}
-                index={index}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/8 hover:border-white/20 transition-all shadow-lg"
+              >
+                <div className="mb-3">
+                  <h3 className="text-lg font-semibold text-slate-100">{paperType || "Paper"} {year}</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">65 Questions · 100 Marks · 3 hrs</p>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <button
+                    onClick={() => navigate(`/instructions/${year}/set1`)}
+                    className="flex-1 py-2 text-sm font-medium rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-300 hover:bg-purple-600/40 hover:text-white transition-all"
+                  >
+                    Shift 1
+                  </button>
+                  <button
+                    onClick={() => navigate(`/instructions/${year}/set2`)}
+                    className="flex-1 py-2 text-sm font-medium rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600/40 hover:text-white transition-all"
+                  >
+                    Shift 2
+                  </button>
+                </div>
+              </motion.div>
             ))}
           </div>
         </motion.section>

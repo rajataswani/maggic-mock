@@ -60,25 +60,39 @@ const App = () => (
                 </ProtectedRoute>
               } />
               
-              <Route path="/instructions/:year" element={
-                <ProtectedRoute>
-                  <Instructions />
-                </ProtectedRoute>
-              } />
-              
+              {/* Special routes MUST come before parameterized :year routes */}
               <Route path="/instructions/special/:testId" element={
                 <ProtectedRoute>
                   <Instructions />
                 </ProtectedRoute>
               } />
+
+              <Route path="/instructions/:year" element={
+                <ProtectedRoute>
+                  <Instructions />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/instructions/:year/:set" element={
+                <ProtectedRoute>
+                  <Instructions />
+                </ProtectedRoute>
+              } />
               
+              {/* Special routes MUST come before parameterized :year routes */}
+              <Route path="/test/special/:testId" element={
+                <ProtectedRoute>
+                  <Test />
+                </ProtectedRoute>
+              } />
+
               <Route path="/test/:year" element={
                 <ProtectedRoute>
                   <Test />
                 </ProtectedRoute>
               } />
-              
-              <Route path="/test/special/:testId" element={
+
+              <Route path="/test/:year/:set" element={
                 <ProtectedRoute>
                   <Test />
                 </ProtectedRoute>

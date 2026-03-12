@@ -74,6 +74,7 @@ const AddQuestion = () => {
   const queryParams = useQuery();
   const isPYQ = queryParams.get('type') === 'pyq';
   const pyqYear = queryParams.get('year');
+  const pyqSet = queryParams.get('set') || 'set1'; // default to set1 if not provided
   
   const [previewOpen, setPreviewOpen] = useState(false);
   const [bulkUploadOpen, setBulkUploadOpen] = useState(false);
@@ -82,10 +83,10 @@ const AddQuestion = () => {
   // Get subject list based on paper type
   const subjectList = paperType === "GATE CS" ? gateCSSubjects : gateDASubjects;
   
-  // Get collection name
+  // Get collection name — always uses new _set format for consistency
   const getCollectionName = () => {
     if (isPYQ && pyqYear && paperType) {
-      return `pyqQuestions_${paperType.replace(" ", "_")}_${pyqYear}`;
+      return `pyqQuestions_${paperType.replace(" ", "_")}_${pyqYear}_${pyqSet}`;
     }
     return "questions";
   };

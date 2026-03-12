@@ -29,9 +29,12 @@ interface SpecialTestData {
 }
 
 const Instructions = () => {
-  const { year, testId } = useParams();
+  const { year, testId, set } = useParams();
   const { paperType } = usePaper();
   const navigate = useNavigate();
+
+  // Human-readable shift label e.g. "set1" → "Shift 1"
+  const shiftLabel = set ? `Shift ${set.replace('set', '')}` : null;
   const [specialTest, setSpecialTest] = useState<SpecialTestData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -92,6 +95,8 @@ const Instructions = () => {
   const handleStartTest = () => {
     if (testId) {
       navigate(`/test/special/${testId}`);
+    } else if (year && set) {
+      navigate(`/test/${year}/${set}`);
     } else if (year) {
       navigate(`/test/${year}`);
     }
@@ -136,7 +141,9 @@ const Instructions = () => {
       <Card className="w-full max-w-3xl bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl relative z-10">
         <CardHeader>
           <CardTitle className="text-center text-2xl text-slate-100 font-bold">
-            {specialTest ? specialTest.name : `${paperType} ${year} Test Instructions`}
+            {specialTest
+              ? specialTest.name
+              : `${paperType} ${year}${shiftLabel ? ` — ${shiftLabel}` : ''} Test Instructions`}
           </CardTitle>
           {specialTest?.description && (
             <CardDescription className="text-center text-slate-400">

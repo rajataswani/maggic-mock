@@ -22,6 +22,7 @@ import QuestionTable from "@/components/admin/question/QuestionTable";
 import QuestionFilterBar from "@/components/admin/question/QuestionFilterBar";
 import DuplicateQuestionManager from "@/components/admin/question/DuplicateQuestionManager";
 import EditQuestionDialog from "@/components/admin/question/EditQuestionDialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const QuestionList = () => {
   const { paperType } = usePaper();
@@ -31,6 +32,7 @@ const QuestionList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentTab, setCurrentTab] = useState<"all" | "pyq" | "general">("all");
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [selectedSet, setSelectedSet] = useState<string>("set1");
   const [pyqYears, setPyqYears] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [questionToDelete, setQuestionToDelete] = useState<Question | null>(null);
@@ -44,7 +46,7 @@ const QuestionList = () => {
     const fetchPyqYears = async () => {
       try {
         const years = [
-          "2025", "2024", "2023", "2022", "2021", "2020",
+          "2026", "2025", "2024", "2023", "2022", "2021", "2020",
           "2019", "2018", "2017", "2016", "2015"
         ];
         setPyqYears(years);
@@ -91,19 +93,19 @@ const QuestionList = () => {
           }
 
           if ((currentTab === "all" || currentTab === "pyq") && selectedYear) {
-            // Fetch PYQ questions for the selected year
-            const pyqCollectionName = `pyqQuestions_${paperType?.replace(" ", "_")}_${selectedYear}`;
+            // Fetch PYQ questions for the selected year + shift
+            const pyqCollectionName = `pyqQuestions_${paperType?.replace(" ", "_")}_${selectedYear}_${selectedSet}`;
             try {
               const pyqQSnapshot = await getDocs(collection(db, pyqCollectionName));
               pyqQSnapshot.forEach((doc) => {
                 fetchedQuestions.push({
                   id: doc.id,
                   ...doc.data(),
-                  paperType: selectedYear, // Add year info for display
+                  paperType: selectedYear,
                   collectionName: pyqCollectionName
                 } as Question);
               });
-              console.log(`Fetched ${selectedYear} PYQ questions:`, fetchedQuestions.length);
+              console.log(`Fetched ${selectedYear} ${selectedSet} PYQ questions:`, fetchedQuestions.length);
             } catch (error) {
               console.log(`Collection ${pyqCollectionName} might not exist yet`, error);
             }
@@ -120,7 +122,7 @@ const QuestionList = () => {
     };
 
     fetchQuestions();
-  }, [paperType, currentTab, selectedYear, refreshTrigger]);
+  }, [paperType, currentTab, selectedYear, selectedSet, refreshTrigger]);
 
   // Filter questions based on search term
   const filteredQuestions = questions.filter(
@@ -189,6 +191,23 @@ const QuestionList = () => {
         selectedYear={selectedYear}
         onYearSelect={setSelectedYear}
       />
+
+      {/* Show shift selector when a PYQ year is selected */}
+      {selectedYear && (currentTab === "all" || currentTab === "pyq") && (
+        <div className="flex items-center gap-3 my-3">
+          <span className="text-sm text-muted-foreground font-medium">Shift / Set:</span>
+          <Select value={selectedSet} onValueChange={setSelectedSet}>
+            <SelectTrigger className="w-36 h-8 text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="set1">Shift 1</SelectItem>
+              <SelectItem value="set2">Shift 2</SelectItem>
+              <SelectItem value="set3">Shift 3</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-10">Loading questions...</div>

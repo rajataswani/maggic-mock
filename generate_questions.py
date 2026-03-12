@@ -10,7 +10,7 @@ subjects = [
 
 questions = []
 
-for i in range(15):
+for i in range(65):
     q_type = random.choices(["MCQ", "MSQ", "NAT"], weights=[0.6, 0.2, 0.2])[0]
     marks = random.choice([1, 2])
     subject = random.choice(subjects)
@@ -51,4 +51,4 @@ for i in range(15):
 with open(r'c:\Users\Pradeep Aswani\Downloads\maggic-mock-main\sample_questions.json', 'w') as f:
     json.dump(questions, f, indent=2)
 
-print("Successfully generated 100 strictly formatted questions in sample_questions.json")
+print("Successfully generated 65 strictly formatted questions in sample_questions.json")

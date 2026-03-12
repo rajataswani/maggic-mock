@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Question, TestParams } from "@/lib/types";
 import { generateSpecialTest } from "@/services/testService";
 
-export const useTestLoader = (year: string | undefined, paperType: string | null, testId?: string | undefined) => {
+export const useTestLoader = (year: string | undefined, paperType: string | null, testId?: string | undefined, set?: string | undefined) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -63,23 +63,38 @@ export const useTestLoader = (year: string | undefined, paperType: string | null
         }
         // Handle PYQ test case
         else if (year) {
-          console.log("Loading PYQ test for year:", year, "paper type:", paperType);
-          const collectionName = `pyqQuestions_${paperType?.replace(" ", "_")}_${year}`;
-          
+          const baseType = paperType?.replace(" ", "_");
+          // New format: pyqQuestions_GATE_CS_2020_set1
+          // Legacy fallback: pyqQuestions_GATE_CS_2020
+          const collectionName = set
+            ? `pyqQuestions_${baseType}_${year}_${set}`
+            : `pyqQuestions_${baseType}_${year}`;
+
+          console.log("Loading PYQ test from collection:", collectionName);
           const q = query(collection(db, collectionName));
-          
           const querySnapshot = await getDocs(q);
           const fetchedQuestions: Question[] = [];
-          
           querySnapshot.forEach((doc) => {
             fetchedQuestions.push({ id: doc.id, ...doc.data() } as Question);
           });
+
+          // Legacy fallback: if new format returned nothing, try old format
+          if (fetchedQuestions.length === 0 && set) {
+            const legacyCollection = `pyqQuestions_${baseType}_${year}`;
+            console.log("No questions found in new format, trying legacy:", legacyCollection);
+            const legacySnapshot = await getDocs(query(collection(db, legacyCollection)));
+            legacySnapshot.forEach((doc) => {
+              fetchedQuestions.push({ id: doc.id, ...doc.data() } as Question);
+            });
+          }
+
+          const shiftLabel = set ? ` Shift ${set.replace('set', '')}` : '';
           
           if (fetchedQuestions.length === 0) {
             setError("No questions found");
             toast({
               title: "No questions found",
-              description: `No questions found for ${paperType} ${year}. Please try another paper.`,
+              description: `No questions found for ${paperType} ${year}${shiftLabel}. Please try another paper.`,
               variant: "destructive",
             });
             navigate("/dashboard");
@@ -89,7 +104,7 @@ export const useTestLoader = (year: string | undefined, paperType: string | null
           if (fetchedQuestions.length < 65) {
             toast({
               title: "Insufficient questions",
-              description: `Only ${fetchedQuestions.length}/65 questions are available for ${paperType} ${year}. Please try another paper or contact admin.`,
+              description: `Only ${fetchedQuestions.length}/65 questions available for ${paperType} ${year}${shiftLabel}.`,
               variant: "destructive",
             });
             navigate("/dashboard");
@@ -153,7 +168,7 @@ export const useTestLoader = (year: string | undefined, paperType: string | null
     };
     
     loadTest();
-  }, [year, paperType, toast, navigate, testId]);
+  }, [year, set, paperType, toast, navigate, testId]);
 
   return {
     questions,

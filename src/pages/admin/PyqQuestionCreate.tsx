@@ -34,23 +34,24 @@ const PyqQuestionCreate = () => {
   const navigate = useNavigate();
   const { paperType } = usePaper();
   const { currentUser } = useAuth();
-  const [year, setYear] = useState<string>("2023");
+  const [year, setYear] = useState<string>("2025");
+  const [set, setSet] = useState<string>("set1");
   const [previewOpen, setPreviewOpen] = useState(false);
   const [bulkUploadOpen, setBulkUploadOpen] = useState(false);
   const [formData, setFormData] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questionCount, setQuestionCount] = useState<number | null>(null);
-  const [years] = useState<string[]>(["2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014"]);
+  const [years] = useState<string[]>(["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015"]);
+  const SETS = [{ value: "set1", label: "Shift 1" }, { value: "set2", label: "Shift 2" }, { value: "set3", label: "Shift 3" }];
 
   // Function to fetch question count for the selected year and paper type
   const fetchQuestionCount = async () => {
     try {
       if (!year || !paperType) return;
       
-      const collectionName = `pyqQuestions_${paperType?.replace(" ", "_")}_${year}`;
+      const collectionName = `pyqQuestions_${paperType?.replace(" ", "_")}_${year}_${set}`;
       const q = query(collection(db, collectionName));
       const snapshot = await getDocs(q);
-      
       setQuestionCount(snapshot.size);
     } catch (error) {
       console.error("Error fetching question count:", error);
@@ -60,7 +61,7 @@ const PyqQuestionCreate = () => {
 
   useEffect(() => {
     fetchQuestionCount();
-  }, [year, paperType]);
+  }, [year, set, paperType]);
 
   const handlePreview = (data: any) => {
     setFormData(data);
@@ -161,23 +162,16 @@ const PyqQuestionCreate = () => {
         questionObj.rangeEnd = parseFloat(formData.rangeEnd || "0");
       }
       
-      // Specific collection for PYQ questions
-      const collectionName = `pyqQuestions_${paperType?.replace(" ", "_")}_${year}`;
+      // Specific collection for PYQ questions (with shift/set)
+      const collectionName = `pyqQuestions_${paperType?.replace(" ", "_")}_${year}_${set}`;
       
-      // Add the question to the firestore collection
       await addDoc(collection(db, collectionName), questionObj);
-      
-      // Reset form
       setFormData(null);
       setPreviewOpen(false);
-      
-      // Show success message
       toast({
         title: "Success",
-        description: `Question added successfully to ${paperType} ${year} PYQ collection`,
+        description: `Question added to ${paperType} ${year} ${SETS.find(s => s.value === set)?.label || set}`,
       });
-      
-      // Refresh question count
       fetchQuestionCount();
       
     } catch (error) {
@@ -220,21 +214,29 @@ const PyqQuestionCreate = () => {
             </CardHeader>
             <CardContent>
               <div className="mb-6 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="year">Year</Label>
-                    <Select 
-                      value={year} 
-                      onValueChange={setYear}
-                    >
+                    <Select value={year} onValueChange={setYear}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select Year" />
                       </SelectTrigger>
                       <SelectContent>
                         {years.map((y) => (
-                          <SelectItem key={y} value={y}>
-                            {y}
-                          </SelectItem>
+                          <SelectItem key={y} value={y}>{y}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="set">Shift / Set</Label>
+                    <Select value={set} onValueChange={setSet}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Shift" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SETS.map((s) => (
+                          <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -268,9 +270,9 @@ const PyqQuestionCreate = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <CalendarIcon className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">Year:</span>
+                  <span className="text-muted-foreground">Year &amp; Shift:</span>
                 </div>
-                <span className="font-medium">{year}</span>
+                <span className="font-medium">{year} · {SETS.find(s => s.value === set)?.label || set}</span>
               </div>
               
               <div className="flex items-center justify-between">
@@ -338,7 +340,7 @@ const PyqQuestionCreate = () => {
         open={bulkUploadOpen}
         onOpenChange={setBulkUploadOpen}
         paperType={paperType || "GATE CS"}
-        collectionName={`pyqQuestions_${paperType?.replace(" ", "_")}_${year}`}
+        collectionName={`pyqQuestions_${paperType?.replace(" ", "_")}_${year}_${set}`}
         onSuccess={() => fetchQuestionCount()}
         maxLimit={65}
         currentCount={questionCount || 0}

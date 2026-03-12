@@ -1,53 +1,51 @@
 [
   {
-    "text": "Sample auto-generated MCQ question 1 covering Engineering Maths. What is the correct answer?",
+    "text": "Sample auto-generated MCQ question 1 covering Operating System. What is the correct answer?",
     "type": "MCQ",
     "marks": 1,
-    "subject": "Engineering Maths",
-    "difficultyLevel": 2,
+    "subject": "Operating System",
+    "difficultyLevel": 1,
     "options": [
       "Option A for Q1",
       "Option B for Q1",
       "Option C for Q1",
       "Option D for Q1"
     ],
-    "correctOption": "d"
+    "correctOption": "c"
   },
   {
-    "text": "Sample auto-generated MSQ question 2 covering Aptitude. What is the correct answer?",
-    "type": "MSQ",
-    "marks": 2,
-    "subject": "Aptitude",
-    "difficultyLevel": 5,
+    "text": "Sample auto-generated MCQ question 2 covering Algorithms. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Algorithms",
+    "difficultyLevel": 4,
     "options": [
       "Option A for Q2",
       "Option B for Q2",
       "Option C for Q2",
       "Option D for Q2"
     ],
-    "correctOptions": [
-      "a"
-    ]
+    "correctOption": "c"
   },
   {
-    "text": "Sample auto-generated MCQ question 3 covering Computer Networking. What is the correct answer?",
+    "text": "Sample auto-generated MCQ question 3 covering Theory of Computation. What is the correct answer?",
     "type": "MCQ",
     "marks": 1,
-    "subject": "Computer Networking",
-    "difficultyLevel": 3,
+    "subject": "Theory of Computation",
+    "difficultyLevel": 4,
     "options": [
       "Option A for Q3",
       "Option B for Q3",
       "Option C for Q3",
       "Option D for Q3"
     ],
-    "correctOption": "d"
+    "correctOption": "b"
   },
   {
-    "text": "Sample auto-generated MSQ question 4 covering Computer Networking. What is the correct answer?",
-    "type": "MSQ",
+    "text": "Sample auto-generated MCQ question 4 covering Theory of Computation. What is the correct answer?",
+    "type": "MCQ",
     "marks": 1,
-    "subject": "Computer Networking",
+    "subject": "Theory of Computation",
     "difficultyLevel": 2,
     "options": [
       "Option A for Q4",
@@ -55,82 +53,101 @@
       "Option C for Q4",
       "Option D for Q4"
     ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MSQ question 5 covering Theory of Computation. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 1,
+    "subject": "Theory of Computation",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q5",
+      "Option B for Q5",
+      "Option C for Q5",
+      "Option D for Q5"
+    ],
     "correctOptions": [
-      "c",
-      "b",
       "a",
+      "b",
       "d"
     ]
   },
   {
-    "text": "Sample auto-generated NAT question 5 covering Database. What is the correct answer?",
-    "type": "NAT",
+    "text": "Sample auto-generated MSQ question 6 covering Engineering Maths. What is the correct answer?",
+    "type": "MSQ",
     "marks": 1,
-    "subject": "Database",
-    "difficultyLevel": 5,
-    "rangeStart": 63.42,
-    "rangeEnd": 64.42
-  },
-  {
-    "text": "Sample auto-generated MCQ question 6 covering Algorithms. What is the correct answer?",
-    "type": "MCQ",
-    "marks": 2,
-    "subject": "Algorithms",
-    "difficultyLevel": 3,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 2,
     "options": [
       "Option A for Q6",
       "Option B for Q6",
       "Option C for Q6",
       "Option D for Q6"
     ],
-    "correctOption": "d"
+    "correctOptions": [
+      "d",
+      "c",
+      "a",
+      "b"
+    ]
   },
   {
-    "text": "Sample auto-generated NAT question 7 covering Engineering Maths. What is the correct answer?",
-    "type": "NAT",
-    "marks": 1,
-    "subject": "Engineering Maths",
-    "difficultyLevel": 5,
-    "rangeStart": 75.16,
-    "rangeEnd": 76.16
-  },
-  {
-    "text": "Sample auto-generated NAT question 8 covering Programming and Data Structures. What is the correct answer?",
-    "type": "NAT",
-    "marks": 2,
-    "subject": "Programming and Data Structures",
-    "difficultyLevel": 2,
-    "rangeStart": 39.44,
-    "rangeEnd": 40.44
-  },
-  {
-    "text": "Sample auto-generated NAT question 9 covering Operating System. What is the correct answer?",
-    "type": "NAT",
-    "marks": 1,
-    "subject": "Operating System",
-    "difficultyLevel": 3,
-    "rangeStart": 78.48,
-    "rangeEnd": 79.48
-  },
-  {
-    "text": "Sample auto-generated MCQ question 10 covering Algorithms. What is the correct answer?",
+    "text": "Sample auto-generated MCQ question 7 covering Programming and Data Structures. What is the correct answer?",
     "type": "MCQ",
     "marks": 1,
-    "subject": "Algorithms",
+    "subject": "Programming and Data Structures",
     "difficultyLevel": 4,
+    "options": [
+      "Option A for Q7",
+      "Option B for Q7",
+      "Option C for Q7",
+      "Option D for Q7"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 8 covering Database. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Database",
+    "difficultyLevel": 1,
+    "options": [
+      "Option A for Q8",
+      "Option B for Q8",
+      "Option C for Q8",
+      "Option D for Q8"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated NAT question 9 covering Aptitude. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Aptitude",
+    "difficultyLevel": 1,
+    "rangeStart": 64.65,
+    "rangeEnd": 65.65
+  },
+  {
+    "text": "Sample auto-generated MCQ question 10 covering Programming and Data Structures. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Programming and Data Structures",
+    "difficultyLevel": 3,
     "options": [
       "Option A for Q10",
       "Option B for Q10",
       "Option C for Q10",
       "Option D for Q10"
     ],
-    "correctOption": "c"
+    "correctOption": "d"
   },
   {
-    "text": "Sample auto-generated MCQ question 11 covering Engineering Maths. What is the correct answer?",
-    "type": "MCQ",
-    "marks": 1,
-    "subject": "Engineering Maths",
+    "text": "Sample auto-generated MSQ question 11 covering Compiler Design. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 2,
+    "subject": "Compiler Design",
     "difficultyLevel": 4,
     "options": [
       "Option A for Q11",
@@ -138,14 +155,19 @@
       "Option C for Q11",
       "Option D for Q11"
     ],
-    "correctOption": "d"
+    "correctOptions": [
+      "a",
+      "d",
+      "c",
+      "b"
+    ]
   },
   {
-    "text": "Sample auto-generated MSQ question 12 covering Computer Networking. What is the correct answer?",
+    "text": "Sample auto-generated MSQ question 12 covering Compiler Design. What is the correct answer?",
     "type": "MSQ",
     "marks": 2,
-    "subject": "Computer Networking",
-    "difficultyLevel": 1,
+    "subject": "Compiler Design",
+    "difficultyLevel": 2,
     "options": [
       "Option A for Q12",
       "Option B for Q12",
@@ -153,49 +175,710 @@
       "Option D for Q12"
     ],
     "correctOptions": [
-      "c"
+      "b"
     ]
   },
   {
-    "text": "Sample auto-generated MCQ question 13 covering Computer Networking. What is the correct answer?",
+    "text": "Sample auto-generated MCQ question 13 covering Algorithms. What is the correct answer?",
     "type": "MCQ",
     "marks": 2,
-    "subject": "Computer Networking",
-    "difficultyLevel": 3,
+    "subject": "Algorithms",
+    "difficultyLevel": 1,
     "options": [
       "Option A for Q13",
       "Option B for Q13",
       "Option C for Q13",
       "Option D for Q13"
     ],
-    "correctOption": "c"
+    "correctOption": "a"
   },
   {
-    "text": "Sample auto-generated MCQ question 14 covering Algorithms. What is the correct answer?",
-    "type": "MCQ",
+    "text": "Sample auto-generated MSQ question 14 covering Programming and Data Structures. What is the correct answer?",
+    "type": "MSQ",
     "marks": 1,
-    "subject": "Algorithms",
-    "difficultyLevel": 3,
+    "subject": "Programming and Data Structures",
+    "difficultyLevel": 4,
     "options": [
       "Option A for Q14",
       "Option B for Q14",
       "Option C for Q14",
       "Option D for Q14"
     ],
-    "correctOption": "c"
+    "correctOptions": [
+      "d",
+      "c",
+      "a"
+    ]
   },
   {
-    "text": "Sample auto-generated MCQ question 15 covering Computer Organization and Architecture. What is the correct answer?",
+    "text": "Sample auto-generated MCQ question 15 covering Engineering Maths. What is the correct answer?",
     "type": "MCQ",
-    "marks": 1,
-    "subject": "Computer Organization and Architecture",
-    "difficultyLevel": 4,
+    "marks": 2,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 1,
     "options": [
       "Option A for Q15",
       "Option B for Q15",
       "Option C for Q15",
       "Option D for Q15"
     ],
+    "correctOption": "d"
+  },
+  {
+    "text": "Sample auto-generated MSQ question 16 covering Computer Networking. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 1,
+    "subject": "Computer Networking",
+    "difficultyLevel": 3,
+    "options": [
+      "Option A for Q16",
+      "Option B for Q16",
+      "Option C for Q16",
+      "Option D for Q16"
+    ],
+    "correctOptions": [
+      "b",
+      "d",
+      "a"
+    ]
+  },
+  {
+    "text": "Sample auto-generated MSQ question 17 covering Engineering Maths. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 2,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 3,
+    "options": [
+      "Option A for Q17",
+      "Option B for Q17",
+      "Option C for Q17",
+      "Option D for Q17"
+    ],
+    "correctOptions": [
+      "d"
+    ]
+  },
+  {
+    "text": "Sample auto-generated MSQ question 18 covering Digital Logic. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 1,
+    "subject": "Digital Logic",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q18",
+      "Option B for Q18",
+      "Option C for Q18",
+      "Option D for Q18"
+    ],
+    "correctOptions": [
+      "b"
+    ]
+  },
+  {
+    "text": "Sample auto-generated MSQ question 19 covering Computer Networking. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 1,
+    "subject": "Computer Networking",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q19",
+      "Option B for Q19",
+      "Option C for Q19",
+      "Option D for Q19"
+    ],
+    "correctOptions": [
+      "c",
+      "b",
+      "d"
+    ]
+  },
+  {
+    "text": "Sample auto-generated NAT question 20 covering Computer Organization and Architecture. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Computer Organization and Architecture",
+    "difficultyLevel": 3,
+    "rangeStart": 83.68,
+    "rangeEnd": 84.68
+  },
+  {
+    "text": "Sample auto-generated MCQ question 21 covering Programming and Data Structures. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Programming and Data Structures",
+    "difficultyLevel": 1,
+    "options": [
+      "Option A for Q21",
+      "Option B for Q21",
+      "Option C for Q21",
+      "Option D for Q21"
+    ],
     "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 22 covering Database. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Database",
+    "difficultyLevel": 3,
+    "options": [
+      "Option A for Q22",
+      "Option B for Q22",
+      "Option C for Q22",
+      "Option D for Q22"
+    ],
+    "correctOption": "a"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 23 covering Operating System. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Operating System",
+    "difficultyLevel": 4,
+    "options": [
+      "Option A for Q23",
+      "Option B for Q23",
+      "Option C for Q23",
+      "Option D for Q23"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated NAT question 24 covering Computer Organization and Architecture. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Computer Organization and Architecture",
+    "difficultyLevel": 2,
+    "rangeStart": 55.43,
+    "rangeEnd": 56.43
+  },
+  {
+    "text": "Sample auto-generated NAT question 25 covering Computer Organization and Architecture. What is the correct answer?",
+    "type": "NAT",
+    "marks": 1,
+    "subject": "Computer Organization and Architecture",
+    "difficultyLevel": 5,
+    "rangeStart": 18.96,
+    "rangeEnd": 19.96
+  },
+  {
+    "text": "Sample auto-generated NAT question 26 covering Computer Networking. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Computer Networking",
+    "difficultyLevel": 2,
+    "rangeStart": 69.63,
+    "rangeEnd": 70.63
+  },
+  {
+    "text": "Sample auto-generated MCQ question 27 covering Operating System. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Operating System",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q27",
+      "Option B for Q27",
+      "Option C for Q27",
+      "Option D for Q27"
+    ],
+    "correctOption": "d"
+  },
+  {
+    "text": "Sample auto-generated NAT question 28 covering Engineering Maths. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 4,
+    "rangeStart": 75.32,
+    "rangeEnd": 76.32
+  },
+  {
+    "text": "Sample auto-generated MCQ question 29 covering Computer Organization and Architecture. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Computer Organization and Architecture",
+    "difficultyLevel": 4,
+    "options": [
+      "Option A for Q29",
+      "Option B for Q29",
+      "Option C for Q29",
+      "Option D for Q29"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 30 covering Computer Networking. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Computer Networking",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q30",
+      "Option B for Q30",
+      "Option C for Q30",
+      "Option D for Q30"
+    ],
+    "correctOption": "a"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 31 covering Operating System. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Operating System",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q31",
+      "Option B for Q31",
+      "Option C for Q31",
+      "Option D for Q31"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated MSQ question 32 covering Discrete Maths. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 1,
+    "subject": "Discrete Maths",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q32",
+      "Option B for Q32",
+      "Option C for Q32",
+      "Option D for Q32"
+    ],
+    "correctOptions": [
+      "c",
+      "d",
+      "b",
+      "a"
+    ]
+  },
+  {
+    "text": "Sample auto-generated MCQ question 33 covering Aptitude. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Aptitude",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q33",
+      "Option B for Q33",
+      "Option C for Q33",
+      "Option D for Q33"
+    ],
+    "correctOption": "a"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 34 covering Discrete Maths. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Discrete Maths",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q34",
+      "Option B for Q34",
+      "Option C for Q34",
+      "Option D for Q34"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 35 covering Database. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Database",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q35",
+      "Option B for Q35",
+      "Option C for Q35",
+      "Option D for Q35"
+    ],
+    "correctOption": "d"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 36 covering Engineering Maths. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q36",
+      "Option B for Q36",
+      "Option C for Q36",
+      "Option D for Q36"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 37 covering Theory of Computation. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Theory of Computation",
+    "difficultyLevel": 3,
+    "options": [
+      "Option A for Q37",
+      "Option B for Q37",
+      "Option C for Q37",
+      "Option D for Q37"
+    ],
+    "correctOption": "d"
+  },
+  {
+    "text": "Sample auto-generated NAT question 38 covering Computer Networking. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Computer Networking",
+    "difficultyLevel": 2,
+    "rangeStart": 56.61,
+    "rangeEnd": 57.61
+  },
+  {
+    "text": "Sample auto-generated MCQ question 39 covering Algorithms. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Algorithms",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q39",
+      "Option B for Q39",
+      "Option C for Q39",
+      "Option D for Q39"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 40 covering Programming and Data Structures. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Programming and Data Structures",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q40",
+      "Option B for Q40",
+      "Option C for Q40",
+      "Option D for Q40"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated NAT question 41 covering Engineering Maths. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 5,
+    "rangeStart": 23.05,
+    "rangeEnd": 24.05
+  },
+  {
+    "text": "Sample auto-generated MCQ question 42 covering Discrete Maths. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Discrete Maths",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q42",
+      "Option B for Q42",
+      "Option C for Q42",
+      "Option D for Q42"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated NAT question 43 covering Aptitude. What is the correct answer?",
+    "type": "NAT",
+    "marks": 1,
+    "subject": "Aptitude",
+    "difficultyLevel": 3,
+    "rangeStart": 67.56,
+    "rangeEnd": 68.56
+  },
+  {
+    "text": "Sample auto-generated MCQ question 44 covering Database. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Database",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q44",
+      "Option B for Q44",
+      "Option C for Q44",
+      "Option D for Q44"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 45 covering Programming and Data Structures. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Programming and Data Structures",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q45",
+      "Option B for Q45",
+      "Option C for Q45",
+      "Option D for Q45"
+    ],
+    "correctOption": "d"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 46 covering Theory of Computation. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Theory of Computation",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q46",
+      "Option B for Q46",
+      "Option C for Q46",
+      "Option D for Q46"
+    ],
+    "correctOption": "a"
+  },
+  {
+    "text": "Sample auto-generated NAT question 47 covering Programming and Data Structures. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Programming and Data Structures",
+    "difficultyLevel": 1,
+    "rangeStart": 26.99,
+    "rangeEnd": 27.99
+  },
+  {
+    "text": "Sample auto-generated MCQ question 48 covering Digital Logic. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Digital Logic",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q48",
+      "Option B for Q48",
+      "Option C for Q48",
+      "Option D for Q48"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 49 covering Aptitude. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Aptitude",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q49",
+      "Option B for Q49",
+      "Option C for Q49",
+      "Option D for Q49"
+    ],
+    "correctOption": "a"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 50 covering Operating System. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Operating System",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q50",
+      "Option B for Q50",
+      "Option C for Q50",
+      "Option D for Q50"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated NAT question 51 covering Aptitude. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Aptitude",
+    "difficultyLevel": 3,
+    "rangeStart": 55.86,
+    "rangeEnd": 56.86
+  },
+  {
+    "text": "Sample auto-generated MCQ question 52 covering Computer Organization and Architecture. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Computer Organization and Architecture",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q52",
+      "Option B for Q52",
+      "Option C for Q52",
+      "Option D for Q52"
+    ],
+    "correctOption": "d"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 53 covering Compiler Design. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Compiler Design",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q53",
+      "Option B for Q53",
+      "Option C for Q53",
+      "Option D for Q53"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated MSQ question 54 covering Engineering Maths. What is the correct answer?",
+    "type": "MSQ",
+    "marks": 1,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 4,
+    "options": [
+      "Option A for Q54",
+      "Option B for Q54",
+      "Option C for Q54",
+      "Option D for Q54"
+    ],
+    "correctOptions": [
+      "a",
+      "b",
+      "d",
+      "c"
+    ]
+  },
+  {
+    "text": "Sample auto-generated MCQ question 55 covering Operating System. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Operating System",
+    "difficultyLevel": 3,
+    "options": [
+      "Option A for Q55",
+      "Option B for Q55",
+      "Option C for Q55",
+      "Option D for Q55"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 56 covering Computer Organization and Architecture. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Computer Organization and Architecture",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q56",
+      "Option B for Q56",
+      "Option C for Q56",
+      "Option D for Q56"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 57 covering Engineering Maths. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Engineering Maths",
+    "difficultyLevel": 1,
+    "options": [
+      "Option A for Q57",
+      "Option B for Q57",
+      "Option C for Q57",
+      "Option D for Q57"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated NAT question 58 covering Computer Networking. What is the correct answer?",
+    "type": "NAT",
+    "marks": 1,
+    "subject": "Computer Networking",
+    "difficultyLevel": 4,
+    "rangeStart": 80.97,
+    "rangeEnd": 81.97
+  },
+  {
+    "text": "Sample auto-generated MCQ question 59 covering Computer Organization and Architecture. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Computer Organization and Architecture",
+    "difficultyLevel": 1,
+    "options": [
+      "Option A for Q59",
+      "Option B for Q59",
+      "Option C for Q59",
+      "Option D for Q59"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated NAT question 60 covering Discrete Maths. What is the correct answer?",
+    "type": "NAT",
+    "marks": 1,
+    "subject": "Discrete Maths",
+    "difficultyLevel": 4,
+    "rangeStart": 76.72,
+    "rangeEnd": 77.72
+  },
+  {
+    "text": "Sample auto-generated MCQ question 61 covering Theory of Computation. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Theory of Computation",
+    "difficultyLevel": 4,
+    "options": [
+      "Option A for Q61",
+      "Option B for Q61",
+      "Option C for Q61",
+      "Option D for Q61"
+    ],
+    "correctOption": "c"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 62 covering Computer Networking. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Computer Networking",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q62",
+      "Option B for Q62",
+      "Option C for Q62",
+      "Option D for Q62"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 63 covering Operating System. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 1,
+    "subject": "Operating System",
+    "difficultyLevel": 5,
+    "options": [
+      "Option A for Q63",
+      "Option B for Q63",
+      "Option C for Q63",
+      "Option D for Q63"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated MCQ question 64 covering Discrete Maths. What is the correct answer?",
+    "type": "MCQ",
+    "marks": 2,
+    "subject": "Discrete Maths",
+    "difficultyLevel": 2,
+    "options": [
+      "Option A for Q64",
+      "Option B for Q64",
+      "Option C for Q64",
+      "Option D for Q64"
+    ],
+    "correctOption": "b"
+  },
+  {
+    "text": "Sample auto-generated NAT question 65 covering Database. What is the correct answer?",
+    "type": "NAT",
+    "marks": 2,
+    "subject": "Database",
+    "difficultyLevel": 3,
+    "rangeStart": 71.4,
+    "rangeEnd": 72.4
   }
 ]

@@ -15,7 +15,7 @@ import TestLoading from "./TestLoading";
 import TestError from "./TestError";
 
 const TestContainer: React.FC = () => {
-  const { year, testId } = useParams();
+  const { year, testId, set } = useParams();
   const navigate = useNavigate();
   const { paperType } = usePaper();
   // Add a ref to prevent multiple time-based submissions
@@ -37,7 +37,7 @@ const TestContainer: React.FC = () => {
     setRemainingTime,
     error,
     testType
-  } = useTestLoader(year, paperType, testId);
+  } = useTestLoader(year, paperType, testId, set);
 
   // Initialize test controls
   const {
