@@ -26,6 +26,7 @@ import SpecialTestsList from "./pages/admin/SpecialTestsList";
 import SpecialTestAddQuestions from "./pages/admin/SpecialTestAddQuestions";
 import NotFound from "./pages/NotFound";
 import PyqQuestionCreate from './pages/admin/PyqQuestionCreate';
+import JsonConverter from './pages/admin/JsonConverter';
 
 const queryClient = new QueryClient();
 
@@ -147,6 +148,12 @@ const App = () => (
               <Route path="/admin/test-responses" element={
                 <AdminRoute>
                   <TestResponsesList />
+                </AdminRoute>
+              } />
+              
+              <Route path="/admin/json-converter" element={
+                <AdminRoute>
+                  <JsonConverter />
                 </AdminRoute>
               } />
               

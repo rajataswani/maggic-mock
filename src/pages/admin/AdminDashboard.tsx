@@ -5,7 +5,7 @@ import { db } from "@/lib/firebase";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FilePlus, FileText, List, MessageSquare, BrainCircuit, Calendar } from "lucide-react";
+import { FilePlus, FileText, List, MessageSquare, BrainCircuit, Calendar, Braces } from "lucide-react";
 
 const AdminDashboard = () => {
   const [questionCount, setQuestionCount] = useState(0);
@@ -150,6 +150,14 @@ const AdminDashboard = () => {
                 <div className="flex flex-col items-center">
                   <MessageSquare className="h-6 w-6 mb-2 text-indigo-400" />
                   <span>Feedbacks</span>
+                </div>
+              </Button>
+            </Link>
+            <Link to="/admin/json-converter">
+              <Button variant="outline" className="w-full h-24 bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white transition-all shadow-lg hover:shadow-indigo-500/20">
+                <div className="flex flex-col items-center">
+                  <Braces className="h-6 w-6 mb-2 text-emerald-400" />
+                  <span>JSON Converter</span>
                 </div>
               </Button>
             </Link>
