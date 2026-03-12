@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Copy, Check, Trash2, ClipboardPaste, Loader2, Image as ImageIcon, Braces } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { SUBJECTS } from "@/constants/subjects";
+import { gateCSSubjects } from "@/constants/subjects";
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -220,10 +220,34 @@ export default function JsonConverter() {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(JSON.stringify(questions, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-    toast({ title: "Copied!", description: "JSON copied to clipboard." });
+    const json = JSON.stringify(questions, null, 2);
+
+    // Prefer the modern Clipboard API (works on localhost & HTTPS)
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(json).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        toast({ title: "Copied!", description: "JSON copied to clipboard." });
+      });
+    } else {
+      // Fallback for LAN IPs (192.168.x.x) and non-secure contexts
+      const textarea = document.createElement("textarea");
+      textarea.value = json;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        toast({ title: "Copied!", description: "JSON copied to clipboard." });
+      } catch {
+        toast({ title: "Copy failed", description: "Please manually select and copy the JSON text.", variant: "destructive" });
+      }
+      document.body.removeChild(textarea);
+    }
   };
 
   const handleClear = () => {
@@ -359,7 +383,7 @@ export default function JsonConverter() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-900 border-white/10 text-slate-100">
-                    {SUBJECTS.map((s) => (
+                    {gateCSSubjects.map((s) => (
                       <SelectItem key={s} value={s}>{s}</SelectItem>
                     ))}
                   </SelectContent>

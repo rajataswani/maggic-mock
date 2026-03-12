@@ -86,7 +86,7 @@ const BulkUploadDialog = ({
 
       // Validate each question against our strict schema rules
       const validatedQuestions = parsed.map((q: any, index: number) => {
-        if (!q.text) throw new Error(`Question ${index + 1}: Missing 'text' property.`);
+        if (!q.text && !q.imageUrl) throw new Error(`Question ${index + 1}: Missing 'text' property (or provide an 'imageUrl' instead).`);
         if (!["MCQ", "MSQ", "NAT"].includes(q.type)) throw new Error(`Question ${index + 1}: Invalid 'type'. Must be MCQ, MSQ, or NAT.`);
         if (!q.marks || (q.marks !== 1 && q.marks !== 2)) throw new Error(`Question ${index + 1}: 'marks' must be 1 or 2.`);
         
@@ -110,28 +110,28 @@ const BulkUploadDialog = ({
 
         // Assemble the final sanitized object
         const sanitizedData: any = {
-          text: q.text,
+          text: q.text || "",
           type: q.type as QuestionType,
           marks: Number(q.marks),
-          subject: matchedSubject, // strictly enforces exact matching string
+          subject: matchedSubject,
           difficultyLevel: q.difficultyLevel || 3,
           negativeMark: calculateNegativeMarks(q.type, Number(q.marks)),
           imageUrl: q.imageUrl || null,
           addedBy: currentUser?.email || "unknown",
           paperType: paperType,
-          // timestamp is added during the actual upload
         };
 
         if (q.type === "MCQ") {
-          sanitizedData.options = q.options.map((optText: string, i: number) => ({
+          // Support both plain string options ("A") and object options ({id, text})
+          sanitizedData.options = q.options.map((opt: any, i: number) => ({
             id: String.fromCharCode(97 + i),
-            text: optText
+            text: typeof opt === "string" ? opt : opt.text,
           }));
           sanitizedData.correctOption = q.correctOption.toLowerCase();
         } else if (q.type === "MSQ") {
-          sanitizedData.options = q.options.map((optText: string, i: number) => ({
+          sanitizedData.options = q.options.map((opt: any, i: number) => ({
             id: String.fromCharCode(97 + i),
-            text: optText
+            text: typeof opt === "string" ? opt : opt.text,
           }));
           sanitizedData.correctOptions = q.correctOptions.map((c: string) => c.toLowerCase());
         } else if (q.type === "NAT") {
